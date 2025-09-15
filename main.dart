@@ -1,131 +1,86 @@
 import 'package:flutter/material.dart';
 
-void main() {
+
+void main(){
   runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
   @override
-  Widget build(BuildContext context) {
+    Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'My Profile App',
+      title: 'My Image Carousel App',
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: ProfilePage(),
+      home: HomePage(),
     );
   }
 }
 
-class ProfilePage extends StatefulWidget {
-  @override
-  _ProfilePageState createState() => _ProfilePageState();
-}
+class HomePage extends StatelessWidget {
 
-class _ProfilePageState extends State<ProfilePage> {
+  final List imageUrls = [
+    'https://picsum.photos/400/300?random=1',
+    'https://picsum.photos/400/300?random=2',
+    'https://picsum.photos/400/300?random=3',
+    'https://picsum.photos/400/300?random=4',
+    'https://picsum.photos/400/300?random=5',
+  ];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey[100],
       appBar: AppBar(
-        title: Text('Profile'),
-        centerTitle: true,
+        title: Text('My Photo Gallery'),
         backgroundColor: Colors.blue,
-        elevation: 0,
       ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            // Profile Pic
-            Container(
-              width: 160,
-              height: 160,
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                border: Border.all(
-                  color: Colors.blue,
-                  width: 4,
-                ),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black26,
-                    blurRadius: 10,
-                    offset: Offset(0, 5),
-                  ),
-                ],
-              ),
-              child: ClipOval(
-                child: Image.network(
-                  'https://via.placeholder.com/150', // Placeholder image URL
-                  width: 160,
-                  height: 160,
-                  fit: BoxFit.cover,
-                ),
-              ),
+      body: Column(
+        children: [
+          Container(
+            height: 300,
+            child: ListView.builder(
+                scrollDirection: Axis.horizontal,
+                itemCount: imageUrls.length,
+                itemBuilder: (context, index) {
+                  return Container(
+                    child: ClipRRect(
+                        borderRadius: BorderRadius.circular(10),
+                        child: Image.network(
+                          imageUrls[index],
+                          width: 400,
+                          height: 300,
+                          fit: BoxFit.cover,
+                        ),
+                    ),
+                  );
+                },
             ),
-            // Name
-            SizedBox(height: 20),
-            Text(
-              'GRC',
-              style: TextStyle(
-                fontSize: 28,
-                fontWeight: FontWeight.bold,
-                color: Colors.black87,
-              ),
-            ),
-            // Job Title
-            SizedBox(height: 8),
-            Text(
-              'College of Computer Studies', // Fixed typo here
-              style: TextStyle(
-                fontSize: 20,
-                color: Colors.blue,
-                fontWeight: FontWeight.w500,
-              ),
-            ),
+          ),
 
-            //about me
-            SizedBox(height: 30),
-            Container(
-              padding: EdgeInsets.all(20),
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(15),
-                boxShadow: [
-                  BoxShadow(
-                      color: Colors.black12,
-                      blurRadius: 8,
-                      offset: Offset(0, 3)
-                  ),
-                ],
+          Padding(padding: EdgeInsets.all(16.0),
+          child: Column(
+            children: [
+              Text('Image Gallery',
+              style: TextStyle(
+                fontSize: 24,
+                fontWeight: FontWeight.bold,
+                color: Colors.blue,
               ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    'About Me',
-                    style: TextStyle(
-                      fontSize: 20,
-                      color: Colors.blue,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  SizedBox(height: 20),
-                  Text(
-                    'GSITE',
-                    style: TextStyle(
-                      fontSize: 16,
-                      color: Colors.grey[700],
-                      height: 1.5,
-                    ),
-                    textAlign: TextAlign.left,
-                  )
-                ],
               ),
-            )
-          ],
-        ),
+
+              SizedBox(height: 8),
+              Text('Swipe left to explore the amazing photos. These Amazing Photos.',
+              style: TextStyle(
+                fontSize: 16,
+                color: Colors.grey[600],
+              ),
+                textAlign: TextAlign.center,
+              ),
+            ],
+          ),
+          ),
+        ],
       ),
     );
   }
